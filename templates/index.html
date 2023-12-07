@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logística Relâmpago</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Logística Relâmpago</h1>
+
+    <form method="post">
+        <label for="origem">Origem:</label>
+        <select name="origem" id="origem">
+            {% for cidade in ["Curitiba/PR", "Londrina/PR", "Foz do Iguaçu/PR", "União da Vitória/PR", "Joinville/SC", "Chapecó/SC", "Porto Alegre/RS", "Uruguaiana/RS", "Pelotas/RS"] %}
+                <option value="{{ cidade }}">{{ cidade }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="destino">Destino:</label>
+        <select name="destino" id="destino">
+            {% for cidade in ["Curitiba/PR", "Londrina/PR", "Foz do Iguaçu/PR", "União da Vitória/PR", "Joinville/SC", "Chapecó/SC", "Porto Alegre/RS", "Uruguaiana/RS", "Pelotas/RS"] %}
+                <option value="{{ cidade }}">{{ cidade }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Calcular Rota</button>
+    </form>
+
+    {% if caminho %}
+        <h3>Caminho Otimizado:</h3>
+        <p>{{ caminho|join(" -> ") }}</p>
+        <p>Distância Total: {{ distancia }} km</p>
+        <p>Custo Total: R$ {{ custo }}</p>
+        <p>Tempo Estimado: {{ tempo }} dias</p>
+        <p>Data/Hora de Chegada Estimada: {{ data_hora_chegada }}</p>
+
+        <h3>Mapa:</h3>
+        <iframe width="800" height="600" src="{{ url_for('static', filename='caminho_otimizado.html') }}"></iframe>
+    {% endif %}
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+</body>
+</html>
